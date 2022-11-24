@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Lara-Vue Eduwork | Dashboard</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -216,7 +216,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('author') }}" class="nav-link {{ request()->is('author') ? 'active' : '' }}">
+            <a href="{{ url('authors') }}" class="nav-link {{ request()->is('authors') ? 'active' : '' }}">
               <i class="nav-icon fas fa-pen-nib"></i>
               <p>
                 Author
@@ -224,7 +224,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('book') }}" class="nav-link {{ request()->is('book') ? 'active' : '' }}">
+            <a href="{{ url('books') }}" class="nav-link {{ request()->is('books') ? 'active' : '' }}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Book
@@ -232,7 +232,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('catalog') }}" class="nav-link {{ request()->is('catalog') ? 'active' : '' }}">
+            <a href="{{ url('catalogs') }}" class="nav-link {{ request()->is('catalogs') ? 'active' : '' }}">
               <i class="nav-icon fas fa-edit"></i>
               <p>
                 Catalog
@@ -240,7 +240,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('member') }}" class="nav-link {{ request()->is('member') ? 'active' : '' }}">
+            <a href="{{ url('members') }}" class="nav-link {{ request()->is('members') ? 'active' : '' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Member
@@ -248,7 +248,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('publisher') }}" class="nav-link {{ request()->is('publisher') ? 'active' : '' }}">
+            <a href="{{ url('publishers') }}" class="nav-link {{ request()->is('publishers') ? 'active' : '' }}">
               <i class="nav-icon fas fa-building"></i>
               <p>
                 Publisher
@@ -256,7 +256,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('transaction') }}" class="nav-link {{ request()->is('transaction') ? 'active' : '' }}">
+            <a href="{{ url('transactions') }}" class="nav-link {{ request()->is('transactions') ? 'active' : '' }}">
               <i class="nav-icon fas fa-money-bill"></i>
               <p>
                 Transaction
@@ -264,7 +264,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ url('transactiondetail') }}" class="nav-link {{ request()->is('transactiondetail') ? 'active' : '' }}">
+            <a href="{{ url('transactiondetails') }}" class="nav-link {{ request()->is('transactiondetails') ? 'active' : '' }}">
               <i class="nav-icon fas fa-info"></i>
               <p>
                 Transaction Details
