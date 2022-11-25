@@ -94,11 +94,7 @@ class HomeController extends Controller
 
         $data20 = Member::select('*')->whereMonth('members.created_at', '=', '6')->groupBy('members.name')->get();
 
-<<<<<<< HEAD
         // return $data20;
-=======
-        return $data20;
->>>>>>> a3be113f71118c90d0d2bd664493c448231e0af8
         // return $transactions;
         // return $transactiondetails;
         // return $catalog;
