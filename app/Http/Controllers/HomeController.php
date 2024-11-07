@@ -86,14 +86,53 @@ class HomeController extends Controller
 
         $data16 = Book::select('*', 'publishers.name')->LeftJoin('publishers', 'publishers.id', '=', 'books.publisher_id')->Union( Book::select('*', 'publishers.name')->RightJoin('publishers', 'publishers.id', '=', 'books.publisher_id'))->get();
 
-        $data17 = Book::select('authors.id', DB::raw('count(books.id) as total_author'))->Join('authors', 'authors.id', '=', 'books.author_id')->get();
+        $data17 = Book::select('authors.id', DB::raw('count(books.id) as total_author'))->where('books.author_id', 3)->Join('authors', 'authors.id', '=', 'books.author_id')->get();
 
         $data18 = Book::select('*')->where('books.price', '>', '10000')->get();
 
-        $data19 = Book::select('*')->Join('publishers', 'publishers.id', '=', 'books.publisher_id')->where('publishers.name', '=', '"%Publisher01%"')->where('books.qty', '>', '10')->get();
+        $data19 = Book::select('*')->Join('publishers', 'publishers.id', '=', 'books.publisher_id')->where('publishers.name', 'like', '%Publisher01%')->where('books.qty', '>', '10')->get();
 
-        $data20 = Member::select('*')->whereMonth('members.created_at', '=', '6')->groupBy('members.name')->get();
+        $data20 = Member::select('*')->whereMonth('members.created_at', '6')->groupBy('members.name')->get();
 
+        // menghitung total data buku, member, penulis, penerbit dan total transaksi
+
+        $books = count(Book::all());
+        $members = count(Member::all());
+        $publishers = count(Publisher::all());
+        $authors = count(Author::all());
+        $transactiondetails = count(TransactionDetail::all());
+
+        $total_buku = Book::count();
+        $total_member = Member::count();        
+        $total_penulis = Author::count();
+        $total_penerbit = Publisher::count();
+        $total_transaksi = Transaction::count();
+        $total_detail_transaksi = TransactionDetail::count();
+
+        $data_donut = Book::select(DB::raw('count(publisher_id) as total'))->groupBy('publisher_id')->orderBy('publisher_id', 'ASC')->pluck('total');
+        $label_donut = Publisher::orderBy('publishers.id', 'ASC')->Join('books', 'books.publisher_id', '=', 'publishers.id')->groupBy('name')->pluck('name');
+
+        $label_bar = ['Peminjaman', 'Pengembalian'];
+        $data_bar = [];
+
+        foreach ($label_bar as $key => $value) {
+            $data_bar[$key] ['label'] = $label_bar[$key];
+            $data_bar[$key] ['backgroundColor'] = $key == 0 ? 'rgba(210,214,222,1)' : 'rgba(60,141,188,0.9)';
+            $data_month = [];
+
+            foreach (range(1, 12) as $month) {
+                if ($key == 0) {
+                    $data_month[$month] = Transaction::select(DB::raw("COUNT(*) as total"))->whereMonth('date_start', $month)->first()->total;
+                } else {
+                    $data_month[$month] = Transaction::select(DB::raw("COUNT(*) as total"))->whereMonth('date_end', $month)->first()->total;
+                }
+            }
+            $data_bar[$key]['data'] = $data_month;
+        }
+
+        // $data_pie = Book::select(DB::raw('count(author_id) as total'))->groupBy('author_id')->orderBy('author_id', 'ASC')->pluck('total');
+
+        // return $data20;
         // return $data20;
         // return $transactions;
         // return $transactiondetails;
@@ -102,6 +141,7 @@ class HomeController extends Controller
         // return $publisher;
         // return $books;
         // return $members;
-        return view('home');
+
+        return view('home', compact('books', 'members', 'publishers', 'total_buku', 'total_member', 'total_penulis', 'total_penerbit', 'total_transaksi', 'total_detail_transaksi', 'data_donut', 'label_donut', 'label_bar', 'data_bar', 'authors', 'transactiondetails', 'data', 'data2', 'data3', 'data4', 'data5', 'data6', 'data7', 'data8', 'data9', 'data10', 'data11', 'data12', 'data13', 'data14', 'data15', 'data16', 'data17', 'data18', 'data19', 'data20'));
     }
 }

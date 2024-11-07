@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\Catalog;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,10 +22,18 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with('transactiondetails')->get();
-        // return $books;
+        $publishers = Publisher::all();
+        $authors = Author::all();
+        $catalogs = Catalog::all();
+        return view('admin.book', compact('publishers', 'authors', 'catalogs'));
+    }
 
-        return view('admin.book.index', compact('books'));
+    public function api()
+    {
+        $books = Book::all();
+        // $datatables = datatables()->of($books)->addIndexColumn();
+
+        return json_encode($books);
     }
 
     /**
@@ -27,7 +43,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('admin.book.create');
+        return view('admin.book');
     }
 
     /**
@@ -39,15 +55,20 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'isbn', 'title', 'year', 'publisher_id', 'author_id', 'catalog_id', 'qty', 'price' => ['required'],
+            'isbn' => ['required'],
+            'title' => ['required'],
+            'year' => ['required'],
+            'publisher_id' => ['required'],
+            'author_id' => ['required'],
+            'catalog_id' => ['required'],
+            'qty' => ['required'],
+            'price' => ['required'],
         ]);
-
-        // $book = new book;
+        // $book = New book;
         // $book->name = $request->name;
-
         // $book->save();
 
-        book::create($request->all());
+        Book::create($request->all());
 
         return redirect('books');
     }
@@ -71,7 +92,10 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('admin.book.edit', compact('book'));
+        $publishers = Publisher::all();
+        $authors = Author::all();
+        $catalogs = Catalog::all();
+        return view('admin.book', compact('publishers', 'authors', 'catalogs'));
     }
 
     /**
@@ -84,7 +108,14 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $this->validate($request,[
-            'isbn', 'title', 'year', 'publisher_id', 'author_id', 'catalog_id', 'qty', 'price' => ['required'],
+            'isbn' => ['required'],
+            'title' => ['required'],
+            'year' => ['required'],
+            'publisher_id' => ['required'],
+            'author_id' => ['required'],
+            // 'catalog_id' => ['required'],
+            'qty' => ['required'],
+            'price' => ['required'],
         ]);
 
         $book->update($request->all());
@@ -101,6 +132,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+
         return redirect('books');
     }
 }

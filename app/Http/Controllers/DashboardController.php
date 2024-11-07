@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
+use App\Models\Dashboard;
+use App\Models\Member;
+use App\Models\Book;
+use App\Models\Publisher;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
-class TransactionController extends Controller
+class DashboardController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +18,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('admin.transaction.index');
+        //
     }
 
     /**
@@ -46,10 +45,10 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Transaction  $transaction
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function show(Transaction $transaction)
+    public function show(Dashboard $dashboard)
     {
         //
     }
@@ -57,10 +56,10 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Transaction  $transaction
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function edit(Transaction $transaction)
+    public function edit(Dashboard $dashboard)
     {
         //
     }
@@ -69,10 +68,10 @@ class TransactionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Transaction  $transaction
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, Dashboard $dashboard)
     {
         //
     }
@@ -80,10 +79,10 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Transaction  $transaction
+     * @param  \App\Models\Dashboard  $dashboard
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Dashboard $dashboard)
     {
         //
     }

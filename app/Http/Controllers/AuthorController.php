@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class AuthorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,10 +20,23 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $authors = Author::with('books')->get();
+        return view('admin.author');
+    }
 
-        // return $authors;
-        return view('admin.author.index', compact('authors'));
+    public function api()
+    {
+        $authors = Author::all();
+
+        // foreach ($authors as $key => $author) {
+        //     $author -> date = convert_date($author->created_at);
+
+        // }
+        $datatables = datatables()->of($authors)
+                                    ->addColumn('date', function($author){
+                                        return convert_date($author->created_at);
+                                    })->addIndexColumn();
+
+        return $datatables->make(true);
     }
 
     /**
@@ -27,7 +46,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('admin.author.create');
+        return view('admin.author');
     }
 
     /**
@@ -39,12 +58,13 @@ class AuthorController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name', 'phone_number', 'address', 'email' => ['required'],
+            'name' => ['required'],
+            'phone_number' => ['required'],
+            'address' => ['required'],
+            'email' => ['required'],
         ]);
-
-        // $author = new author;
+        // $author = New author;
         // $author->name = $request->name;
-
         // $author->save();
 
         Author::create($request->all());
@@ -71,7 +91,7 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('admin.author.edit', compact('author'));
+        return view('admin.author', compact('author'));
     }
 
     /**
@@ -84,11 +104,14 @@ class AuthorController extends Controller
     public function update(Request $request, Author $author)
     {
         $this->validate($request,[
-            'name', 'phone_number', 'address', 'email' => ['required'],
+            'name' => ['required'],
+            'phone_number' => ['required'],
+            'address' => ['required'],
+            'email' => ['required']
         ]);
 
         $author->update($request->all());
-
+        
         return redirect('authors');
     }
 
@@ -101,6 +124,7 @@ class AuthorController extends Controller
     public function destroy(Author $author)
     {
         $author->delete();
+
         return redirect('authors');
     }
 }
